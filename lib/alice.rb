@@ -1,3 +1,4 @@
+# typed: strict
 # frozen_string_literal: true
 
 require 'uri'
@@ -13,6 +14,9 @@ require_relative 'alice/client'
 require_relative 'alice/errors'
 
 module Alice
-  class Error < StandardError; end
-  # Your code goes here...
+
+  #: (url: String) -> Alice::Client
+  def new(url:)
+    Client.new(base_url: url)
+  end
 end

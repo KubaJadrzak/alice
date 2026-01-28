@@ -17,8 +17,8 @@ module Alice
     #: (base_url: untyped, ?headers: untyped, ?adapter: untyped) -> void
     def initialize(base_url:, headers: {}, adapter: Adapters::NetHTTP.new)
       raise ArgumentError, 'base_url must be a String' unless base_url.is_a?(String)
-      raise ArgumentError, 'headers must be a Hash' unless headers.is_a?(Hash)
-      raise ArgumentError, 'adapter must inherit from Adapters::Adapter' unless adapter.is_a?(Adapter)
+      raise ArgumentError, 'headers must be a Hash' unless headers.nil? || headers.is_a?(Hash)
+      raise ArgumentError, 'adapter must inherit from Adapters::Adapter' unless adapter.nil || adapter.is_a?(Adapter)
 
       @base_url = base_url
       @headers  = headers
