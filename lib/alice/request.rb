@@ -4,7 +4,7 @@
 module Alice
   class Request
 
-    #: String
+    #: Symbol
     attr_reader :method
 
     #: String
@@ -16,21 +16,45 @@ module Alice
     #: Hash[String, String]
     attr_reader :headers
 
-    #: String?
+    #: Hash[Symbol,String]?
     attr_reader :body
 
-    #: (method: Symbol, base_url: String, path: String, ?headers: Hash[String, String], ?body: String?) -> void
-    def initialize(method:, base_url:, path:, headers: {}, body: nil)
-      @method   = method.to_s.downcase #: String
-      @base_url = base_url #: String
-      @path     = path #: String
-      @headers  = headers #: Hash[untyped, untyped]
-      @body     = body #: untyped
+    #: (method: Symbol, base_url: String, path: String, headers: Hash[String, String], body: Hash[Symbol,String]?) -> void
+    def initialize(method:, base_url:, path:, headers:, body:)
+      @method   = method
+      @base_url = base_url
+      @path     = path
+      @headers  = headers
+      @body     = body
     end
 
-    #: -> String
-    def url
-      URI.join(@base_url, @path).to_s
+    # ====== CUSTOM SETTERS ======
+
+    #: (untyped value) -> void
+    def path=(value)
+      raise ArgumentError, 'path must be a String' unless value.is_a?(String)
+
+      @path = value
     end
+
+    #: (untyped value) -> void
+    def headers=(value)
+      unless value.is_a?(Hash) && value.keys.all? { |k| k.is_a?(String) } && value.values.all? { |v| v.is_a?(String) }
+        raise ArgumentError, 'headers must be a Hash with String keys and String values'
+      end
+
+      @headers = value
+    end
+
+    #: (untyped? value) -> void
+    def body=(value)
+      unless value.is_a?(Hash) && value.keys.all? { |k| k.is_a?(Symbol) } && value.values.all? { |v| v.is_a?(String) }
+        raise ArgumentError, 'body must be nil or a Hash with Symbol keys and String values'
+      end
+
+
+      @body = value
+    end
+
   end
 end
