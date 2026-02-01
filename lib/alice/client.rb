@@ -3,7 +3,6 @@
 
 module Alice
   class Client
-    ALLOWED_METHODS = %i[get post put patch delete head options].freeze
 
     #: String
     attr_reader :base_url

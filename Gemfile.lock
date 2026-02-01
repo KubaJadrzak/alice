@@ -21,6 +21,8 @@ GEM
     lint_roller (1.1.0)
     logger (1.7.0)
     minitest (5.25.5)
+    mocha (3.0.1)
+      ruby2_keywords (>= 0.0.5)
     netrc (0.11.0)
     parallel (1.27.0)
     parser (3.3.8.0)
@@ -64,6 +66,7 @@ GEM
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     sorbet (0.5.12115)
       sorbet-static (= 0.5.12115)
     sorbet-runtime (0.5.12115)
@@ -105,6 +108,7 @@ DEPENDENCIES
   alice!
   irb
   minitest (~> 5.16)
+  mocha
   rake (~> 13.0)
   rubocop (~> 1.21)
   sorbet

@@ -56,5 +56,9 @@ module Alice
       @body = value
     end
 
+    #: -> String
+    def url
+      @base_url + @path
+    end
   end
 end
