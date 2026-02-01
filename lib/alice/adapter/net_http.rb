@@ -42,7 +42,7 @@ module Alice
         #: (Net::HTTPResponse response) -> Alice::Response
         def adapt_response(response)
           Alice::Response.new(
-            status:  response.code,
+            status:  response.code.to_i,
             headers: response.each_header.to_h,
             body:    response.body,
           )

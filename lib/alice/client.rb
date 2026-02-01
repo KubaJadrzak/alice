@@ -18,16 +18,15 @@ module Alice
 
     #: ?{ (Request req) -> void } -> Response
     def get(&block)
-      raise ArgumentError, 'configuration of the request must be provided' unless block
+      raise ArgumentError, 'configuration of the request must be provided via block' unless block
 
       request(:get, &block)
     end
 
     private
 
-    #: (Symbol method) ?{ ( Request req ) -> untyped } -> Response
+    #: (Symbol method) { ( Request req ) -> untyped } -> Response
     def request(method, &block)
-      raise ArgumentError, 'You must provide a block to configure the request' unless block
 
       req = Request.new(
         method:   method,
