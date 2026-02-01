@@ -2,6 +2,6 @@
 
 module Alice
   module Errors
-    class TimeoutError < Alice::Error; end
+    class TimeoutError < Base; end
   end
 end

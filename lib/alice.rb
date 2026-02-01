@@ -19,4 +19,5 @@ module Alice
   def new(url:)
     Client.new(base_url: url)
   end
+
 end

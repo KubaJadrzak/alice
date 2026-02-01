@@ -2,6 +2,6 @@
 
 module Alice
   module Errors
-    class SSLError < Alice::Error; end
+    class SSLError < Base; end
   end
 end

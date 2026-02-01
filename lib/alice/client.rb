@@ -14,15 +14,13 @@ module Alice
     #: Adapter
     attr_reader :adapter
 
-    #: (base_url: untyped, ?headers: untyped, ?adapter: untyped) -> void
-    def initialize(base_url:, headers: {}, adapter: Adapters::NetHTTP.new)
+    #: (base_url: untyped) -> void
+    def initialize(base_url:)
       raise ArgumentError, 'base_url must be a String' unless base_url.is_a?(String)
-      raise ArgumentError, 'headers must be a Hash' unless headers.nil? || headers.is_a?(Hash)
-      raise ArgumentError, 'adapter must inherit from Adapters::Adapter' unless adapter.nil || adapter.is_a?(Adapter)
 
       @base_url = base_url
-      @headers  = headers
-      @adapter  = adapter
+      @headers  = T.let(headers, T::Hash[T.untyped, T.untyped])
+      @adapter  = T.let(adapter, Alice::Adapter)
     end
 
     #: (untyped, ?headers: untyped, ?body: untyped, ?json: untyped) -> void

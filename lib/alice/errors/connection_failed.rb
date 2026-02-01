@@ -2,6 +2,6 @@
 
 module Alice
   module Errors
-    class ConnectionFailed < Alice::Error; end
+    class ConnectionFailed < Base; end
   end
 end
