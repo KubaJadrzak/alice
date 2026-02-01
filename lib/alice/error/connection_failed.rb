@@ -1,7 +1,8 @@
+# typed: strict
 # frozen_string_literal: true
 
 module Alice
-  module Errors
+  module Error
     class ConnectionFailed < Base; end
   end
 end

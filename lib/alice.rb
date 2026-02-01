@@ -9,15 +9,31 @@ require_relative 'alice/version'
 require_relative 'alice/request'
 require_relative 'alice/response'
 require_relative 'alice/adapter'
-require_relative 'alice/adapters/net_http'
 require_relative 'alice/client'
-require_relative 'alice/errors'
+require_relative 'alice/error'
 
 module Alice
+  class << self
+    #: (base_url: untyped, ?adapter: singleton(Alice::Adapter::Base)?) -> Alice::Client
+    def new(base_url:, adapter: nil)
+      raise ArgumentError, 'base_url must be a String' unless base_url.is_a?(String)
 
-  #: (url: String) -> Alice::Client
-  def new(url:)
-    Client.new(base_url: url)
+      adapter = set_adapter(adapter)
+      Client.new(base_url: base_url, adapter: adapter)
+    end
+
+    private
+
+    #: (singleton(Alice::Adapter::Base)?) -> singleton(Alice::Adapter::Base)
+    def set_adapter(adapter)
+      return Adapter::NetHTTP unless adapter
+
+      case adapter
+      when :net_http
+        Adapter::NetHTTP
+      else
+        raise ArgumentError, "unknown adapter #{adapter}"
+      end
+    end
   end
-
 end

@@ -13,20 +13,20 @@ module Alice
     #: String?
     attr_reader :body
 
-    #: Error?
-    attr_reader :error
+    #: Error::Base?
+    attr_reader :errors
 
-    #: (status: Integer, headers: Hash[String, String], body: String?, error: Error?) -> void
-    def initialize(status:, headers:, body:, error:)
+    #: (status: Integer, headers: Hash[String, String], body: String?, errors: Error::Base?) -> void
+    def initialize(status:, headers:, body:, errors:)
       @status  = status.to_i #: Integer
       @headers = headers #: Hash[String, String]
       @body    = body #: String?
-      @error   = error #: Error?
+      @errors  = errors #: Error::Base?
     end
 
     #: -> bool
     def success?
-      @error.nil? && (200..299).include?(@status)
+      @errors.nil? && (200..299).include?(@status)
     end
 
     #: -> bool
@@ -36,17 +36,17 @@ module Alice
 
     #: -> bool
     def timeout?
-      @error.is_a?(Alice::Errors::TimeoutError)
+      @errors.is_a?(Alice::Error::TimeoutError)
     end
 
     #: -> bool
     def connection_failed?
-      @error.is_a?(Alice::Errors::ConnectionFailed)
+      @errors.is_a?(Alice::Error::ConnectionFailed)
     end
 
     #: -> bool
     def ssl_error?
-      @error.is_a?(Alice::Errors::SSLError)
+      @errors.is_a?(Alice::Error::SSLError)
     end
 
     #: -> bool

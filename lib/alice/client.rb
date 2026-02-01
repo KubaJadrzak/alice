@@ -8,19 +8,14 @@ module Alice
     #: String
     attr_reader :base_url
 
-    #: Hash[untyped, untyped]
-    attr_reader :headers
-
-    #: Adapter
+    #: singleton(Alice::Adapter::Base)
     attr_reader :adapter
 
-    #: (base_url: untyped) -> void
-    def initialize(base_url:)
-      raise ArgumentError, 'base_url must be a String' unless base_url.is_a?(String)
-
+    #: (base_url: String, adapter: singleton(Alice::Adapter::Base)) -> void
+    def initialize(base_url:, adapter:)
       @base_url = base_url
-      @headers  = T.let(headers, T::Hash[T.untyped, T.untyped])
-      @adapter  = T.let(adapter, Alice::Adapter)
+      @adapter = adapter
+
     end
 
     #: (untyped, ?headers: untyped, ?body: untyped, ?json: untyped) -> void
@@ -39,14 +34,13 @@ module Alice
     def request(method, path, headers: {}, body: nil, json: nil)
       method = validate_method(method)
       path = validate_path(path)
-      all_headers = normalize_headers(headers)
       payload = validate_body(body, json)
 
       req = Request.new(
         method:   method,
         base_url: @base_url,
         path:     path,
-        headers:  all_headers,
+        headers:  { 'xd' => 'xd' },
         body:     payload,
       )
 
@@ -70,11 +64,6 @@ module Alice
       end
 
       path.start_with?('/') ? path : "/#{path}"
-    end
-
-    #: (untyped) -> Hash[String, String]
-    def normalize_headers(headers)
-      @headers.merge(headers.transform_keys(&:to_s).transform_values(&:to_s))
     end
 
     #: (untyped, untyped) -> String?
