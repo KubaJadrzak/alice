@@ -1,6 +1,6 @@
 # Alice
 
-Simple HTTP client
+This is a personal project created for self-learning purposes. The goal is to create a simplified version of Faraday gem. For now, Alice will support only NetHTTP as adapter, but I have plans to write my own adapter in the future called Wonderland (so that the whole package will be called Alice in Wonderland - you get it?)
 
 ## Development
 
