@@ -3,26 +3,43 @@
 
 module Alice
   module Helper
-    module Normalizer
+    module Params
       extend self
 
-      #: (String) -> String
-      def normalize_base_url(url)
-        normalized = url.chomp('/')
+      #: (untyped) -> String
+      def validate_and_normalize_base_url(base_url)
+        Kernel.raise ArgumentError, 'base_url must be a String' unless base_url.is_a?(String)
+
+        normalized = base_url.chomp('/')
         return normalized if normalized.start_with?('http://', 'https://')
 
         "https://#{normalized}"
       end
 
-      #: (String?) -> String
-      def normalize_path(path)
+      #: (untyped) -> singleton(Alice::Adapter::Base)
+      def validate_and_set_adapter(adapter)
+        return Adapter::NetHTTP unless adapter
+
+        case adapter
+        when :net_http
+          Adapter::NetHTTP
+        else
+          Kernel.raise ArgumentError, "unknown adapter #{adapter}"
+        end
+      end
+
+      #: (untyped) -> String
+      def validate_and_normalize_path(path)
         return '/' if path.nil? || path.empty?
+
+        Kernel.raise ArgumentError, 'path must be a String' unless path.is_a?(String)
+
 
         path.start_with?('/') ? path : "/#{path}"
       end
 
       #: (Hash[untyped, untyped]) -> Hash[String, String]
-      def normalize_headers(headers)
+      def validate_and_normalize_headers(headers)
         normalized = {}
 
         headers.each do |key, value|
@@ -39,7 +56,7 @@ module Alice
       end
 
       #: (untyped? body) -> Hash[String, untyped]
-      def normalize_body(body)
+      def validate_and_normalize_body(body)
         return {} unless body
 
         Kernel.raise ArgumentError, 'body must be a Hash' unless body.is_a?(Hash)
@@ -49,9 +66,9 @@ module Alice
           acc[key.to_s] =
             case value
             when Hash
-              normalize_body(value)
+              validate_and_normalize_body(value)
             when Array
-              normalize_array(value)
+              validate_and_normalize_array(value)
             else
               value.to_s
             end
@@ -59,13 +76,13 @@ module Alice
       end
 
       #: (Array[untyped]) -> Array[untyped]
-      def normalize_array(array)
+      def validate_and_normalize_array(array)
         array.map do |value|
           case value
           when Hash
-            normalize_body(value)
+            validate_and_normalize_body(value)
           when Array
-            normalize_array(value)
+            validate_and_normalize_array(value)
           else
             value.to_s
           end

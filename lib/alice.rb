@@ -15,27 +15,11 @@ require_relative 'alice/helper'
 
 module Alice
   class << self
-    #: (base_url: untyped, ?adapter: singleton(Alice::Adapter::Base)?) -> Alice::Client
+    #: (base_url: untyped, ?adapter: untyped) -> Alice::Client
     def new(base_url:, adapter: nil)
-      raise ArgumentError, 'base_url must be a String' unless base_url.is_a?(String)
-
-      base_url = Helper::Normalizer.normalize_base_url(base_url)
-      adapter = set_adapter(adapter)
+      base_url = Helper::Params.validate_and_normalize_base_url(base_url)
+      adapter = Helper::Params.validate_and_set_adapter(adapter)
       Client.new(base_url: base_url, adapter: adapter)
-    end
-
-    private
-
-    #: (singleton(Alice::Adapter::Base)?) -> singleton(Alice::Adapter::Base)
-    def set_adapter(adapter)
-      return Adapter::NetHTTP unless adapter
-
-      case adapter
-      when :net_http
-        Adapter::NetHTTP
-      else
-        raise ArgumentError, "unknown adapter #{adapter}"
-      end
     end
   end
 end

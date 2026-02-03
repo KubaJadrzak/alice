@@ -16,10 +16,10 @@ module Alice
     #: Hash[String, String]
     attr_reader :headers
 
-    #: Hash[Symbol,String]?
+    #: Hash[String, String]?
     attr_reader :body
 
-    #: (method: Symbol, base_url: String, path: String, headers: Hash[String, String], body: Hash[Symbol,String]?) -> void
+    #: (method: Symbol, base_url: String, path: String, headers: Hash[String, String], body: Hash[String ,String]?) -> void
     def initialize(method:, base_url:, path:, headers:, body:)
       @method   = method
       @base_url = base_url
@@ -32,24 +32,17 @@ module Alice
 
     #: (untyped value) -> void
     def path=(value)
-      raise ArgumentError, 'path must be a String' unless value.nil? || value.is_a?(String)
-
-      @path = Helper::Normalizer.normalize_path(value)
+      @path = Helper::Params.validate_and_normalize_base_url(value)
     end
 
     #: (untyped value) -> void
     def headers=(value)
-      @headers = Helper::Normalizer.normalize_headers(value)
+      @headers = Helper::Params.validate_and_normalize_headers(value)
     end
 
     #: (untyped? value) -> void
     def body=(value)
-      unless value.is_a?(Hash) && value.keys.all? { |k| k.is_a?(Symbol) } && value.values.all? { |v| v.is_a?(String) }
-        raise ArgumentError, 'body must be nil or a Hash with Symbol keys and String values'
-      end
-
-
-      @body = value
+      @body = Helper::Params.validate_and_normalize_body(value)
     end
 
     #: -> String
