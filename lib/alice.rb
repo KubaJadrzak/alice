@@ -11,6 +11,7 @@ require_relative 'alice/response'
 require_relative 'alice/adapter'
 require_relative 'alice/client'
 require_relative 'alice/error'
+require_relative 'alice/helper'
 
 module Alice
   class << self
@@ -18,6 +19,7 @@ module Alice
     def new(base_url:, adapter: nil)
       raise ArgumentError, 'base_url must be a String' unless base_url.is_a?(String)
 
+      base_url = Helper::Normalizer.normalize_base_url(base_url)
       adapter = set_adapter(adapter)
       Client.new(base_url: base_url, adapter: adapter)
     end

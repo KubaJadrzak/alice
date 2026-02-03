@@ -5,15 +5,23 @@ require 'test_helper'
 module Alice
   class ClientTest < Minitest::Test
     def test_exposes_base_url
+      client = Alice.new(base_url: 'https://example.com')
+
+      assert_instance_of Alice::Client, client
+
+      assert_equal 'https://example.com', client.base_url
+    end
+
+    def test_strip_base_url_of_trailing_slash
       client = Alice.new(base_url: 'https://example.com/')
 
       assert_instance_of Alice::Client, client
 
-      assert_equal 'https://example.com/', client.base_url
+      assert_equal 'https://example.com', client.base_url
     end
 
     def test_exposes_adapter
-      client = Alice.new(base_url: 'https://example.com/')
+      client = Alice.new(base_url: 'https://example.com')
 
       assert_instance_of Alice::Client, client
 
@@ -32,5 +40,6 @@ module Alice
       data = JSON.parse(response.body)
       assert_equal 'https://httpbin.org/get', data['url']
     end
+
   end
 end

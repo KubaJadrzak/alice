@@ -32,18 +32,14 @@ module Alice
 
     #: (untyped value) -> void
     def path=(value)
-      raise ArgumentError, 'path must be a String' unless value.is_a?(String)
+      raise ArgumentError, 'path must be a String' unless value.nil? || value.is_a?(String)
 
-      @path = value
+      @path = Helper::Normalizer.normalize_path(value)
     end
 
     #: (untyped value) -> void
     def headers=(value)
-      unless value.is_a?(Hash) && value.keys.all? { |k| k.is_a?(String) } && value.values.all? { |v| v.is_a?(String) }
-        raise ArgumentError, 'headers must be a Hash with String keys and String values'
-      end
-
-      @headers = value
+      @headers = Helper::Normalizer.normalize_headers(value)
     end
 
     #: (untyped? value) -> void

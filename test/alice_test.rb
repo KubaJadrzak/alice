@@ -18,7 +18,15 @@ class AliceTest < Minitest::Test
       Alice.new(base_url: 1)
     end
 
-    assert_equal('base_url must be a String', error.message)
+    assert_equal 'base_url must be a String', error.message
+  end
+
+  def test_raises_argument_error_when_base_url_is_missing
+    error = assert_raises(ArgumentError) do
+      Alice.new(base_url: nil)
+    end
+
+    assert_equal 'base_url must be a String', error.message
   end
 
   def test_raises_argument_error_when_adapter_is_unknown
@@ -26,6 +34,6 @@ class AliceTest < Minitest::Test
       Alice.new(base_url: 'https://example.com/', adapter: :fake_adapter)
     end
 
-    assert_equal('unknown adapter fake_adapter', error.message)
+    assert_equal 'unknown adapter fake_adapter', error.message
   end
 end
