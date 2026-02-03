@@ -30,10 +30,9 @@ module Alice
 
       #: (untyped) -> String
       def validate_and_normalize_path(path)
+        Kernel.raise ArgumentError, 'path must be a String' unless path.nil? || path.is_a?(String)
+
         return '/' if path.nil? || path.empty?
-
-        Kernel.raise ArgumentError, 'path must be a String' unless path.is_a?(String)
-
 
         path.start_with?('/') ? path : "/#{path}"
       end

@@ -6,4 +6,4 @@ module Alice
   end
 end
 
-require_relative 'helper/normalizer'
+require_relative 'helper/params'

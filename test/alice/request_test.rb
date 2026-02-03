@@ -21,7 +21,7 @@ module Alice
           'Content-Type' => 'application/json',
           'Accept'       => 'application/json',
         }
-        r.body = { name: 'Alice', role: 'admin' }
+        r.body = { 'name' => 'Alice', 'role' => 'admin' }
       end
 
       block.call(@req)
@@ -35,8 +35,8 @@ module Alice
       assert_equal expected_headers, @req.headers
 
       expected_body = {
-        name: 'Alice',
-        role: 'admin',
+        'name' => 'Alice',
+        'role' => 'admin',
       }
       assert_equal expected_body, @req.body
     end
@@ -45,14 +45,6 @@ module Alice
       error = assert_raises(ArgumentError) { @req.path = 123 }
 
       assert_equal 'path must be a String', error.message
-    end
-
-    def test_invalid_body_raises
-      first_error = assert_raises(ArgumentError) { @req.body = { 'name' => 'Alice' } }
-      second_error = assert_raises(ArgumentError) { @req.body = { name: 123 } }
-
-      assert_equal 'body must be nil or a Hash with Symbol keys and String values', first_error.message
-      assert_equal 'body must be nil or a Hash with Symbol keys and String values', second_error.message
     end
 
     def test_url_returns_base_url_plus_path

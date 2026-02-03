@@ -32,7 +32,7 @@ module Alice
 
     #: (untyped value) -> void
     def path=(value)
-      @path = Helper::Params.validate_and_normalize_base_url(value)
+      @path = Helper::Params.validate_and_normalize_path(value)
     end
 
     #: (untyped value) -> void
