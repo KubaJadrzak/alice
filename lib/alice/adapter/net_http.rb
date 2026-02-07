@@ -43,10 +43,10 @@ module Alice
         #: (Net::HTTPResponse response, Alice::Request request) -> Alice::Response
         def adapt_response(response, request)
           Alice::Response.new(
-            status:  response.code.to_i,
-            headers: response.each_header.to_h,
-            body:    response.body,
-            request: request,
+            status:   response.code.to_i,
+            headers:  response.each_header.to_h,
+            raw_body: response.body,
+            request:  request,
           )
         end
 

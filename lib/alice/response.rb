@@ -11,16 +11,16 @@ module Alice
     attr_reader :headers
 
     #: String?
-    attr_reader :body
+    attr_reader :raw_body
 
     #: Alice::Request
     attr_reader :request
 
-    #: (status: Integer, headers: Hash[String, String], body: String?, request: Alice::Request) -> void
-    def initialize(status:, headers:, body:, request:)
+    #: (status: Integer, headers: Hash[String, String], raw_body: String?, request: Alice::Request) -> void
+    def initialize(status:, headers:, raw_body:, request:)
       @status  = status
       @headers = headers
-      @body    = body
+      @raw_body = raw_body
       @request = request
     end
 
@@ -35,11 +35,11 @@ module Alice
     end
 
     #: -> JSONValue?
-    def parsed_body
-      raw_body = body
-      return unless raw_body
+    def body
+      body = raw_body
+      return unless body
 
-      JSON.parse(raw_body)
+      JSON.parse(body)
     rescue JSON::ParserError
       nil
     end

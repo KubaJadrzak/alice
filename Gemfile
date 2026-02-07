@@ -18,4 +18,5 @@ gem 'sorbet'
 gem 'sorbet-runtime'
 gem 'tapioca'
 
+gem 'byebug'
 gem 'factory_bot'

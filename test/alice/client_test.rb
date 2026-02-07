@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require 'byebug'
 
 module Alice
   class ClientTest < Minitest::Test
@@ -29,8 +30,13 @@ module Alice
       end
 
       assert_equal 200, response.status
-      data = JSON.parse(response.body)
-      assert_equal 'https://httpbin.org/get', data['url']
+      response_body = response.body
+      response_headers = response.headers
+
+      assert_equal true, response.success?
+      assert_equal 200, response.status
+      assert_equal 'https://httpbin.org/get', response_body['url']
+      assert_equal 'application/json', response_headers['content-type']
     end
 
     def test_raise_argument_error_if_missing_configuration
