@@ -37,15 +37,16 @@ module Alice
         path.start_with?('/') ? path : "/#{path}"
       end
 
-      #: (Hash[untyped, untyped]) -> Hash[String, String]
+      #: (untyped) -> Hash[String, String]
       def validate_and_normalize_headers(headers)
+        Kernel.raise ArgumentError, 'headers must be a Hash' unless headers.is_a?(Hash)
         normalized = {}
 
         headers.each do |key, value|
           next if value.nil?
 
           if value.is_a?(Hash) || value.is_a?(Array)
-            Kernel.raise ArgumentError, "invalid header value for #{key.inspect}"
+            Kernel.raise ArgumentError, "invalid header value for #{key}"
           end
 
           normalized[key.to_s] = value.to_s
@@ -76,15 +77,17 @@ module Alice
 
       #: (Array[untyped]) -> Array[untyped]
       def validate_and_normalize_array(array)
-        array.map do |value|
-          case value
-          when Hash
-            validate_and_normalize_body(value)
-          when Array
-            validate_and_normalize_array(value)
-          else
-            value.to_s
-          end
+        array.each_with_object([]) do |value, acc|
+          next if value.nil?  # <-- drop nils
+
+          acc << case value
+                 when Hash
+                   validate_and_normalize_body(value)
+                 when Array
+                   validate_and_normalize_array(value)
+                 else
+                   value.to_s
+                 end
         end
       end
     end

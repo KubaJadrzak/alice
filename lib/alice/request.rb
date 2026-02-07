@@ -19,7 +19,7 @@ module Alice
     #: Hash[String, String]?
     attr_reader :body
 
-    #: (method: Symbol, base_url: String, path: String, headers: Hash[String, String], body: Hash[String ,String]?) -> void
+    #: (method: Symbol, base_url: String, path: String, headers: untyped, body: untyped) -> void
     def initialize(method:, base_url:, path:, headers:, body:)
       @method   = method
       @base_url = base_url

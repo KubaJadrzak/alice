@@ -13,6 +13,7 @@ gem 'mocha', require: false
 
 gem 'rubocop', '~> 1.21'
 
+gem 'openssl'
 gem 'sorbet', group: :development
 gem 'sorbet-runtime'
 gem 'tapioca', require: false, group: %i[development test]

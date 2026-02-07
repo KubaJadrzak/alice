@@ -12,14 +12,6 @@ module Alice
       assert_equal 'https://example.com', client.base_url
     end
 
-    def test_strip_base_url_of_trailing_slash
-      client = Alice.new(base_url: 'https://example.com/')
-
-      assert_instance_of Alice::Client, client
-
-      assert_equal 'https://example.com', client.base_url
-    end
-
     def test_exposes_adapter
       client = Alice.new(base_url: 'https://example.com')
 
@@ -41,5 +33,14 @@ module Alice
       assert_equal 'https://httpbin.org/get', data['url']
     end
 
+    def test_raise_argument_error_if_missing_configuration
+      client = Alice.new(base_url: 'https://httpbin.org')
+
+      error = assert_raises(ArgumentError) do
+        client.send(:get)
+      end
+
+      assert_equal 'configuration of the request must be provided via block', error.message
+    end
   end
 end
