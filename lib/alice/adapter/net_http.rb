@@ -30,21 +30,23 @@ module Alice
 
           request.headers.each { |k, v| net_req[k] = v }
           net_req['Content-Type'] ||= 'application/json'
+          net_req['Accept'] ||= 'application/json'
           net_req.body = JSON.dump(request.body) if request.body
 
           response = perform_request(http, net_req)
 
-          adapt_response(response)
+          adapt_response(response, request)
         end
 
         private
 
-        #: (Net::HTTPResponse response) -> Alice::Response
-        def adapt_response(response)
+        #: (Net::HTTPResponse response, Alice::Request request) -> Alice::Response
+        def adapt_response(response, request)
           Alice::Response.new(
             status:  response.code.to_i,
             headers: response.each_header.to_h,
             body:    response.body,
+            request: request,
           )
         end
 

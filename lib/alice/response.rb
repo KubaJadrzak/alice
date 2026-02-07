@@ -13,12 +13,15 @@ module Alice
     #: String?
     attr_reader :body
 
-    #: (status: Integer, headers: Hash[String, String], body: String?) -> void
-    def initialize(status:, headers:, body:)
-      @status  = status #: Integer
-      @headers = headers #: Hash[String, String]
-      @body    = body #: String?
+    #: Alice::Request
+    attr_reader :request
 
+    #: (status: Integer, headers: Hash[String, String], body: String?, request: Alice::Request) -> void
+    def initialize(status:, headers:, body:, request:)
+      @status  = status
+      @headers = headers
+      @body    = body
+      @request = request
     end
 
     #: -> bool
@@ -29,6 +32,16 @@ module Alice
     #: -> bool
     def failure?
       !success?
+    end
+
+    #: -> JSONValue?
+    def parsed_body
+      raw_body = body
+      return unless raw_body
+
+      JSON.parse(raw_body)
+    rescue JSON::ParserError
+      nil
     end
 
     #: -> bool
