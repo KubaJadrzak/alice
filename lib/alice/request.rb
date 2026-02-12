@@ -5,7 +5,7 @@ module Alice
   class Request
 
     #: Symbol
-    attr_reader :method
+    attr_reader :http_method
 
     #: String
     attr_reader :base_url
@@ -19,16 +19,14 @@ module Alice
     #: Hash[String, String]?
     attr_reader :body
 
-    #: (method: Symbol, base_url: String, path: String, headers: untyped, body: untyped) -> void
-    def initialize(method:, base_url:, path:, headers:, body:)
-      @method   = method
+    #: (http_method: Symbol, base_url: String, path: String, headers: untyped, body: untyped) -> void
+    def initialize(http_method:, base_url:, path:, headers:, body:)
+      @http_method = http_method
       @base_url = base_url
       @path     = path
       @headers  = headers
       @body     = body
     end
-
-    # ====== CUSTOM SETTERS ======
 
     #: (untyped value) -> void
     def path=(value)

@@ -22,7 +22,7 @@ module Alice
           http = Net::HTTP.new(uri.host, uri.port)
           http.use_ssl = uri.scheme == 'https'
 
-          klass = Net::HTTP.const_get(request.method.capitalize)
+          klass = Net::HTTP.const_get(request.http_method.capitalize)
 
           raise ArgumentError, 'only HTTP(S) URLs are supported' unless uri.is_a?(URI::HTTP)
 

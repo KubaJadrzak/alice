@@ -6,11 +6,11 @@ module Alice
   class RequestTest < Minitest::Test
     def setup
       @req = Request.new(
-        method:   :post,
-        base_url: 'https://example.com',
-        path:     '/',
-        headers:  {},
-        body:     nil,
+        http_method: :post,
+        base_url:    'https://example.com',
+        path:        '/',
+        headers:     {},
+        body:        nil,
       )
     end
 

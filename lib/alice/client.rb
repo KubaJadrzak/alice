@@ -25,15 +25,15 @@ module Alice
 
     private
 
-    #: (Symbol method) { ( Request req ) -> untyped } -> Response
-    def request(method, &block)
+    #: (Symbol http_method) { ( Request req ) -> untyped } -> Response
+    def request(http_method, &block)
 
       req = Request.new(
-        method:   method,
-        base_url: @base_url,
-        path:     '/',
-        headers:  {},
-        body:     nil,
+        http_method: http_method,
+        base_url:    @base_url,
+        path:        '/',
+        headers:     {},
+        body:        nil,
       )
 
       block.call(req)
