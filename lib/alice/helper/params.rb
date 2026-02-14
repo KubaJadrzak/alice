@@ -8,7 +8,7 @@ module Alice
 
       #: (untyped) -> String
       def validate_and_normalize_base_url(base_url)
-        Kernel.raise ArgumentError, 'base_url must be a String' unless base_url.is_a?(String)
+        Kernel.raise Alice::Error::ArgumentError, 'base_url must be a String' unless base_url.is_a?(String)
 
         normalized = base_url.chomp('/')
         return normalized if normalized.start_with?('http://', 'https://')
@@ -24,13 +24,13 @@ module Alice
         when :net_http
           Adapter::NetHTTP
         else
-          Kernel.raise ArgumentError, "unknown adapter #{adapter}"
+          Kernel.raise Alice::Error::ArgumentError, "unknown adapter #{adapter}"
         end
       end
 
       #: (untyped) -> String
       def validate_and_normalize_path(path)
-        Kernel.raise ArgumentError, 'path must be a String' unless path.nil? || path.is_a?(String)
+        Kernel.raise Alice::Error::ArgumentError, 'path must be a String' unless path.nil? || path.is_a?(String)
 
         return '/' if path.nil? || path.empty?
 
@@ -39,14 +39,14 @@ module Alice
 
       #: (untyped) -> Hash[String, String]
       def validate_and_normalize_headers(headers)
-        Kernel.raise ArgumentError, 'headers must be a Hash' unless headers.is_a?(Hash)
+        Kernel.raise Alice::Error::ArgumentError, 'headers must be a Hash' unless headers.is_a?(Hash)
         normalized = {}
 
         headers.each do |key, value|
           next if value.nil?
 
           if value.is_a?(Hash) || value.is_a?(Array)
-            Kernel.raise ArgumentError, "invalid header value for #{key}"
+            Kernel.raise Alice::Error::ArgumentError, "invalid header value for #{key}"
           end
 
           normalized[key.to_s] = value.to_s
@@ -59,7 +59,7 @@ module Alice
       def validate_and_normalize_body(body)
         return {} unless body
 
-        Kernel.raise ArgumentError, 'body must be a Hash' unless body.is_a?(Hash)
+        Kernel.raise Alice::Error::ArgumentError, 'body must be a Hash' unless body.is_a?(Hash)
         body.each_with_object({}) do |(key, value), acc|
           next if value.nil?
 
@@ -78,7 +78,7 @@ module Alice
       #: (Array[untyped]) -> Array[untyped]
       def validate_and_normalize_array(array)
         array.each_with_object([]) do |value, acc|
-          next if value.nil?  # <-- drop nils
+          next if value.nil?
 
           acc << case value
                  when Hash

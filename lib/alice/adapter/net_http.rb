@@ -24,7 +24,7 @@ module Alice
 
           klass = Net::HTTP.const_get(request.http_method.capitalize)
 
-          raise ArgumentError, 'only HTTP(S) URLs are supported' unless uri.is_a?(URI::HTTP)
+          raise Alice::Error::ArgumentError, 'only HTTP(S) URLs are supported' unless uri.is_a?(URI::HTTP)
 
           net_req = klass.new(uri.request_uri)
 

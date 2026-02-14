@@ -4,6 +4,8 @@
 require 'uri'
 require 'net/http'
 require 'json'
+require 'sorbet-runtime'
+require 'byebug'
 
 require_relative 'alice/version'
 require_relative 'alice/request'

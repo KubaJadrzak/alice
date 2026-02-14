@@ -15,7 +15,7 @@ class AliceTest < Minitest::Test
   end
 
   def test_raise_argument_error_when_base_url_is_not_a_string
-    error = assert_raises(ArgumentError) do
+    error = assert_raises(Alice::Error::ArgumentError) do
       Alice.new(base_url: 1)
     end
 
@@ -23,7 +23,7 @@ class AliceTest < Minitest::Test
   end
 
   def test_raise_argument_error_when_base_url_is_missing
-    error = assert_raises(ArgumentError) do
+    error = assert_raises(Alice::Error::ArgumentError) do
       Alice.new(base_url: nil)
     end
 
@@ -47,7 +47,7 @@ class AliceTest < Minitest::Test
   end
 
   def test_raise_argument_error_when_adapter_is_unknown
-    error = assert_raises(ArgumentError) do
+    error = assert_raises(Alice::Error::ArgumentError) do
       Alice.new(base_url: 'https://example.com/', adapter: :fake_adapter)
     end
 

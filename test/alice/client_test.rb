@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'byebug'
 
 module Alice
   class ClientTest < Minitest::Test
@@ -42,7 +41,7 @@ module Alice
     def test_raise_argument_error_if_missing_configuration
       client = Alice.new(base_url: 'https://httpbin.org')
 
-      error = assert_raises(ArgumentError) do
+      error = assert_raises(Alice::Error::ArgumentError) do
         client.send(:get)
       end
 

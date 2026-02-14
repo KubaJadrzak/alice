@@ -42,7 +42,7 @@ module Alice
     end
 
     def test_raise_argument_error_when_path_is_not_a_string
-      error = assert_raises(ArgumentError) { @req.path = 123 }
+      error = assert_raises(Alice::Error::ArgumentError) { @req.path = 123 }
 
       assert_equal 'path must be a String', error.message
     end
@@ -101,7 +101,7 @@ module Alice
         r.body = { 'name' => 'Alice', 'role' => 'admin' }
       end
 
-      error = assert_raises(ArgumentError) do
+      error = assert_raises(Alice::Error::ArgumentError) do
         block.call(@req)
       end
       assert_equal 'path must be a String', error.message
@@ -134,7 +134,7 @@ module Alice
         r.body = { 'name' => 'Alice', 'role' => 'admin' }
       end
 
-      error = assert_raises(ArgumentError) do
+      error = assert_raises(Alice::Error::ArgumentError) do
         block.call(@req)
       end
 
@@ -153,7 +153,7 @@ module Alice
         r.body = { 'name' => 'Alice', 'role' => 'admin' }
       end
 
-      error = assert_raises(ArgumentError) do
+      error = assert_raises(Alice::Error::ArgumentError) do
         block.call(@req)
       end
 
@@ -170,7 +170,7 @@ module Alice
         r.body = { 'name' => 'Alice', 'role' => 'admin' }
       end
 
-      error = assert_raises(ArgumentError) do
+      error = assert_raises(Alice::Error::ArgumentError) do
         block.call(@req)
       end
 

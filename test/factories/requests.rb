@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :request, class: 'Alice::Request' do
     http_method   { :get }

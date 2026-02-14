@@ -18,7 +18,7 @@ module Alice
 
     #: ?{ (Request req) -> void } -> Response
     def get(&block)
-      raise ArgumentError, 'configuration of the request must be provided via block' unless block
+      raise Alice::Error::ArgumentError, 'configuration of the request must be provided via block' unless block
 
       request(:get, &block)
     end

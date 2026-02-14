@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :response, class: 'Alice::Response' do
     status   { 200 }
