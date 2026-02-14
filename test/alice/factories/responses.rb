@@ -49,12 +49,12 @@ FactoryBot.define do
 
     trait :json_body do
       raw_body { '{"data":{"id":1,"name":"Alice"}}' }
-      headers  { super().merge('Content-Type' => 'application/json') }
+      headers  { { 'Content-Type' => 'application/json' } }
     end
 
     trait :invalid_json do
       raw_body { 'not valid json {' }
-      headers  { super().merge('Content-Type' => 'application/json') }
+      headers  { { 'Content-Type' => 'application/json' } }
     end
 
     trait :empty_body do

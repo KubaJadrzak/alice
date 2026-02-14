@@ -7,5 +7,5 @@ require 'minitest/autorun'
 
 require 'factory_bot'
 
-FactoryBot.definition_file_paths = [File.expand_path('factories', __dir__)]
+FactoryBot.definition_file_paths = [File.expand_path('alice/factories', __dir__)]
 FactoryBot.find_definitions

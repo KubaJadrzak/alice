@@ -41,7 +41,7 @@ module Alice
 
       JSON.parse(body)
     rescue JSON::ParserError
-      nil
+      raise Alice::Error::InvalidJSON
     end
 
     #: -> bool
