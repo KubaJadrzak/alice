@@ -6,10 +6,12 @@ module Alice
     # @abstract
     class Base
       class << self
-        #: (Alice::Request request) -> Alice::Response
-        def call(request)
-          raise NotImplementedError, 'Adapters must implement #call'
-        end
+        extend T::Sig
+        extend T::Helpers
+        abstract!
+
+        sig { abstract.params(request: Alice::Request).returns(Alice::Response) }
+        def call(request); end
       end
     end
   end
