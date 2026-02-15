@@ -32,6 +32,7 @@ module Alice
         http_method: http_method,
         base_url:    @base_url,
         path:        '/',
+        params:      {},
         headers:     {},
         body:        nil,
       )

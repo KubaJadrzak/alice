@@ -13,23 +13,32 @@ module Alice
     #: String
     attr_reader :path
 
+    #: Hash[String, String]?
+    attr_reader :params
+
     #: Hash[String, String]
     attr_reader :headers
 
     #: Hash[String, String]?
     attr_reader :body
 
-    #: (http_method: Symbol, base_url: String, path: String, headers: untyped, body: untyped) -> void
-    def initialize(http_method:, base_url:, path:, headers:, body:)
+    #: (http_method: Symbol, base_url: String, path: untyped, params: untyped, headers: untyped, body: untyped) -> void
+    def initialize(http_method:, base_url:, path:, params:, headers:, body:)
       @http_method = http_method
       @base_url = base_url
       @path     = path
+      @params = params
       @headers  = headers
       @body     = body
     end
 
     #: (untyped value) -> void
     def path=(value)
+      @path = Helper::Params.validate_and_normalize_path(value)
+    end
+
+    #: (untyped value) -> void
+    def params=(value)
       @path = Helper::Params.validate_and_normalize_path(value)
     end
 

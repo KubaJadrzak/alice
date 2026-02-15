@@ -38,6 +38,24 @@ module Alice
       end
 
       #: (untyped) -> Hash[String, String]
+      def validate_and_normalize_params(params)
+        Kernel.raise Alice::Error::ArgumentError, 'headers must be a Hash' unless headers.is_a?(Hash)
+        normalized = {}
+
+        params.each do |key, value|
+          next if value.nil?
+
+          if value.is_a?(Hash) || value.is_a?(Array)
+            Kernel.raise Alice::Error::ArgumentError, "invalid header value for #{key}"
+          end
+
+          normalized[key.to_s] = value.to_s
+        end
+
+        normalized
+      end
+
+      #: (untyped) -> Hash[String, String]
       def validate_and_normalize_headers(headers)
         Kernel.raise Alice::Error::ArgumentError, 'headers must be a Hash' unless headers.is_a?(Hash)
         normalized = {}
