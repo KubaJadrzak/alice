@@ -29,9 +29,9 @@ module Alice
           net_req = klass.new(uri.request_uri)
 
           request.headers.each { |k, v| net_req[k] = v }
-          net_req['Content-Type'] ||= 'application/json'
-          net_req['Accept'] ||= 'application/json'
-          net_req.body = JSON.dump(request.body) if request.body
+          body_hash = request.body
+          net_req.body = JSON.dump(body_hash) unless body_hash.empty? || request.http_method == :get
+
 
           response = perform_request(http, net_req)
 

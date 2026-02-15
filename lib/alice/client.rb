@@ -4,16 +4,20 @@
 module Alice
   class Client
 
-    #: String
-    attr_reader :base_url
-
-    #: singleton(Adapter::Base)
-    attr_reader :adapter
-
     #: (base_url: String, adapter: singleton(Adapter::Base)) -> void
     def initialize(base_url:, adapter:)
-      @base_url = base_url
-      @adapter = adapter
+      @base_url = Alice::Types::BaseUrl.new(base_url) #: Alice::Types::BaseUrl
+      @adapter = Alice::Types::Adapter.new(adapter) #: Alice::Types::Adapter
+    end
+
+    #: -> String
+    def base_url
+      @base_url.to_s
+    end
+
+    #: -> Symbol
+    def adapter
+      @adapter.to_sym
     end
 
     #: ?{ (Request req) -> void } -> Response
@@ -31,15 +35,11 @@ module Alice
       req = Request.new(
         http_method: http_method,
         base_url:    @base_url,
-        path:        '/',
-        params:      {},
-        headers:     {},
-        body:        nil,
       )
 
       block.call(req)
 
-      @adapter.call(req)
+      @adapter.klass.call(req)
     end
   end
 end
